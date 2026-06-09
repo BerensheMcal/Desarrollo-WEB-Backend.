@@ -1,0 +1,12 @@
+export { EntidadBase, EntidadBaseConEliminacion } from './entidad-base';
+export { Usuario, RolUsuario } from './usuario.entity';
+export { Categoria } from './categoria.entity';
+export { Producto } from './producto.entity';
+export { ImagenProducto } from './imagen-producto.entity';
+export { Carrito } from './carrito.entity';
+export { ItemCarrito } from './item-carrito.entity';
+export { Orden, EstadoOrden } from './orden.entity';
+export { DetalleOrden } from './detalle-orden.entity';
+export { Taller } from './taller.entity';
+export { ReservaTaller, EstadoReserva } from './reserva-taller.entity';
+export { RegistroAuditoria, EventoAuditoria } from './registro-auditoria.entity';

@@ -1,0 +1,106 @@
+.navbar {
+  background: #1c2b1e;
+  box-shadow: var(--sombra);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  animation: slideInUp 0.3s ease;
+}
+
+.navbar-contenido {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  height: 64px;
+}
+
+.navbar-logo {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-primario);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navbar-logo:hover {
+  color: var(--color-primario-oscuro);
+}
+
+.navbar-enlaces {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.navbar-enlace {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radio);
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--color-texto-secundario);
+  transition: all var(--transicion);
+}
+
+.navbar-enlace:hover,
+.navbar-enlace.activo {
+  color: var(--color-primario);
+  background: rgba(99, 102, 241, 0.08);
+}
+
+.navbar-acciones {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.navbar-boton {
+  position: relative;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  font-size: 1.25rem;
+  color: var(--color-texto-secundario);
+  transition: color var(--transicion);
+}
+
+.navbar-boton:hover {
+  color: var(--color-primario);
+}
+
+.navbar-cart-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--color-peligro);
+  color: white;
+  font-size: 0.625rem;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .navbar-enlaces {
+    display: none;
+  }
+
+  .navbar-enlaces.abierto {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 1rem;
+    box-shadow: var(--sombra-md);
+  }
+}
