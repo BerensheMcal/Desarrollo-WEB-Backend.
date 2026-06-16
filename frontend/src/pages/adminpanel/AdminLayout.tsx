@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import {
   FiHome, FiPackage, FiGrid, FiUsers, FiShoppingBag,

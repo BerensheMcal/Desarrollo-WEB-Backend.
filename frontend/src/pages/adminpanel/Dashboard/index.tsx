@@ -109,7 +109,7 @@ export default function Dashboard() {
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                label={({ name, percent }: { name?: string; percent?: number }) => {
+                label={({ percent }: { percent?: number }) => {
                   const pct = typeof percent === 'number' ? Math.round(percent * 100) : 0;
                   return `${pct}%`;
                 }}
