@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { FiArrowRight, FiPackage, FiStar } from 'react-icons/fi';
 import { productosService } from '../../services/admin.service';
 import { Producto } from '../../types';
 import { getImagenUrl } from '../../utils/imageUrl';
