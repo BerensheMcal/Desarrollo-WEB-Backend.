@@ -5,6 +5,7 @@ import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import { Producto } from '../../types';
 import { FiArrowLeft, FiShoppingCart, FiCheck } from 'react-icons/fi';
+import { getImagenUrl } from '../../utils/imageUrl';
 
 export default function DetalleProducto() {
   const { id } = useParams<{ id: string }>();
@@ -60,7 +61,7 @@ export default function DetalleProducto() {
             onClick={() => setImagenAmpliada(producto.imagenPrincipalUrl || null)}
           >
             <img
-              src={producto.imagenPrincipalUrl ? `http://localhost:3000${producto.imagenPrincipalUrl}` : 'https://via.placeholder.com/500x500?text=Sin+Imagen'}
+              src={getImagenUrl(producto.imagenPrincipalUrl) || 'https://via.placeholder.com/500x500?text=Sin+Imagen'}
               alt={producto.nombre}
               style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
             />
@@ -70,7 +71,7 @@ export default function DetalleProducto() {
               {imagenes.map((url, i) => (
                 <img
                   key={i}
-                  src={`http://localhost:3000${url}`}
+                  src={getImagenUrl(url)}
                   alt=""
                   style={{ width: 64, height: 64, borderRadius: 'var(--radio)', objectFit: 'cover', cursor: 'pointer', border: '2px solid var(--color-borde)' }}
                   onClick={() => setImagenAmpliada(url || null)}
@@ -111,7 +112,7 @@ export default function DetalleProducto() {
         <div className="imagen-ampliada-overlay" onClick={() => setImagenAmpliada(null)}>
           <div className="imagen-ampliada-contenido" onClick={(e) => e.stopPropagation()}>
             <button className="imagen-ampliada-cerrar" onClick={() => setImagenAmpliada(null)}>×</button>
-            <img src={`http://localhost:3000${imagenAmpliada}`} alt="Imagen ampliada" />
+            <img src={getImagenUrl(imagenAmpliada)} alt="Imagen ampliada" />
           </div>
         </div>
       )}

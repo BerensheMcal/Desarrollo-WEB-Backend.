@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { adminService } from '../../../services/admin.service';
 import { Taller } from '../../../types';
 import { FiEdit2, FiTrash2, FiPlus, FiX, FiImage } from 'react-icons/fi';
+import { getImagenUrl } from '../../../utils/imageUrl';
 
 export default function AdminTalleres() {
   const [talleres, setTalleres] = useState<Taller[]>([]);
@@ -56,7 +57,7 @@ export default function AdminTalleres() {
     setCuposMaximos(String(t.cuposMaximos));
     setPrecio(String(t.precio));
     setUbicacion(t.ubicacion || '');
-    setImagenPreview(t.imagenUrl ? `http://localhost:3000${t.imagenUrl}` : null);
+    setImagenPreview(getImagenUrl(t.imagenUrl));
     setImagenArchivo(null);
     setMostrarForm(true);
   };
@@ -170,7 +171,7 @@ export default function AdminTalleres() {
             <tr key={t.id}>
               <td>
                 {t.imagenUrl ? (
-                  <img src={`http://localhost:3000${t.imagenUrl}`} alt="" style={{ width: 48, height: 48, borderRadius: 'var(--radio)', objectFit: 'cover' }} />
+                  <img src={getImagenUrl(t.imagenUrl)} alt="" style={{ width: 48, height: 48, borderRadius: 'var(--radio)', objectFit: 'cover' }} />
                 ) : (
                   <div style={{ width: 48, height: 48, borderRadius: 'var(--radio)', background: 'var(--color-fondo)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-texto-secundario)', fontSize: '0.75rem' }}><FiImage /></div>
                 )}

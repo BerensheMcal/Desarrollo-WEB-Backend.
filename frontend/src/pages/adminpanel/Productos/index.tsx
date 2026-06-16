@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { adminService } from '../../../services/admin.service';
 import { Producto, Categoria } from '../../../types';
 import { FiEdit2, FiTrash2, FiPlus, FiX } from 'react-icons/fi';
+import { getImagenUrl } from '../../../utils/imageUrl';
 
 export default function AdminProductos() {
   const [productos, setProductos] = useState<Producto[]>([]);
@@ -49,7 +50,7 @@ export default function AdminProductos() {
     setStock(String(p.stock));
     setCategoriaId(String(p.categoriaId || ''));
     setImagenFile(null);
-    setImagenPreview(p.imagenPrincipalUrl ? `http://localhost:3000${p.imagenPrincipalUrl}` : null);
+    setImagenPreview(getImagenUrl(p.imagenPrincipalUrl));
     setMostrarForm(true);
   };
 
@@ -144,7 +145,7 @@ export default function AdminProductos() {
           {productos.map((p) => (
             <tr key={p.id}>
               <td>
-                <img src={p.imagenPrincipalUrl ? `http://localhost:3000${p.imagenPrincipalUrl}` : 'https://via.placeholder.com/40'} alt="" style={{ width: 40, height: 40, borderRadius: 'var(--radio)', objectFit: 'cover' }} />
+                <img src={getImagenUrl(p.imagenPrincipalUrl) || 'https://via.placeholder.com/40'} alt="" style={{ width: 40, height: 40, borderRadius: 'var(--radio)', objectFit: 'cover' }} />
               </td>
               <td style={{ fontWeight: 600 }}>{p.nombre}</td>
               <td>{p.categoria?.nombre || '-'}</td>

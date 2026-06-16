@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { talleresService } from '../../services/admin.service';
 import { Taller } from '../../types';
 import { FiCalendar, FiClock, FiMapPin, FiUsers } from 'react-icons/fi';
+import { getImagenUrl } from '../../utils/imageUrl';
 
 export default function Talleres() {
   const [talleres, setTalleres] = useState<Taller[]>([]);
@@ -29,7 +30,7 @@ export default function Talleres() {
           <div key={taller.id} className="tarjeta animacion-slide-up" style={{ display: 'flex', flexDirection: 'column' }}>
             <div style={{height: 350, borderRadius: 'var(--radio)', overflow: 'hidden', marginBottom: '1rem', background: 'var(--color-fondo)' }}>
               <img
-                src={taller.imagenUrl ? `http://localhost:3000${taller.imagenUrl}` : 'https://via.placeholder.com/400x200?text=Taller'}
+                src={getImagenUrl(taller.imagenUrl) || 'https://via.placeholder.com/400x200?text=Taller'}
                 alt={taller.nombre}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />

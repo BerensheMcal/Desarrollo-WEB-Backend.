@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { productosService, categoriasService } from '../../services/admin.service';
 import { Producto, Categoria } from '../../types';
 import { FiSearch } from 'react-icons/fi';
+import { getImagenUrl } from '../../utils/imageUrl';
 import '../../styles/productos.css';
 
 export default function Productos() {
@@ -69,7 +70,7 @@ export default function Productos() {
           <div key={p.id} className="producto-tarjeta animacion-slide-up">
             <div className="producto-imagen" onClick={() => setImagenAmpliada(p.imagenPrincipalUrl || null)}>
               <img
-                src={p.imagenPrincipalUrl ? `http://localhost:3000${p.imagenPrincipalUrl}` : 'https://via.placeholder.com/300x300?text=Sin+Imagen'}
+                src={getImagenUrl(p.imagenPrincipalUrl) || 'https://via.placeholder.com/300x300?text=Sin+Imagen'}
                 alt={p.nombre}
               />
               <div className="producto-imagen-overlay">
@@ -104,7 +105,7 @@ export default function Productos() {
         <div className="imagen-ampliada-overlay" onClick={() => setImagenAmpliada(null)}>
           <div className="imagen-ampliada-contenido" onClick={(e) => e.stopPropagation()}>
             <button className="imagen-ampliada-cerrar" onClick={() => setImagenAmpliada(null)}>×</button>
-            <img src={`http://localhost:3000${imagenAmpliada}`} alt="Imagen ampliada" />
+            <img src={getImagenUrl(imagenAmpliada)} alt="Imagen ampliada" />
           </div>
         </div>
       )}

@@ -5,6 +5,7 @@ import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import { Taller } from '../../types';
 import { FiArrowLeft, FiCalendar, FiClock, FiMapPin, FiUsers, FiCheck } from 'react-icons/fi';
+import { getImagenUrl } from '../../utils/imageUrl';
 
 export default function DetalleTaller() {
   const { id } = useParams<{ id: string }>();
@@ -57,7 +58,7 @@ export default function DetalleTaller() {
 
       <div className="animacion-fade-in">
         {taller.imagenUrl && (
-          <img src={`http://localhost:3000${taller.imagenUrl}`} alt={taller.nombre} style={{ width: '100%', height: 250, objectFit: 'cover', borderRadius: 'var(--radio-lg)', marginBottom: '1.5rem' }} />
+           <img src={getImagenUrl(taller.imagenUrl)} alt={taller.nombre} style={{ width: '100%', height: 250, objectFit: 'cover', borderRadius: 'var(--radio-lg)', marginBottom: '1.5rem' }} />
         )}
         <h1 style={{ fontSize: '1.75rem', fontWeight: 700, marginBottom: '0.5rem' }}>{taller.nombre}</h1>
         <p style={{ color: 'var(--color-texto-secundario)', lineHeight: 1.7, marginBottom: '1.5rem' }}>{taller.descripcion}</p>

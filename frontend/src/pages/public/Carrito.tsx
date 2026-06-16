@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
 import { Carrito as CarritoType } from '../../types';
 import { FiTrash2, FiShoppingBag, FiCheck, FiCreditCard, FiGift } from 'react-icons/fi';
+import { getImagenUrl } from '../../utils/imageUrl';
 
 export default function Carrito() {
   const { estaAutenticado } = useAuth();
@@ -124,7 +125,7 @@ export default function Carrito() {
         {carrito.items.map((item) => (
           <div key={item.id} className="tarjeta animacion-slide-up" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <img
-              src={item.producto?.imagenPrincipalUrl ? `http://localhost:3000${item.producto.imagenPrincipalUrl}` : 'https://via.placeholder.com/80x80'}
+              src={getImagenUrl(item.producto?.imagenPrincipalUrl) || 'https://via.placeholder.com/80x80'}
               alt=""
               style={{ width: 80, height: 80, borderRadius: 'var(--radio)', objectFit: 'cover' }}
             />

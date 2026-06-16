@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { productosService } from '../../services/admin.service';
 import { Producto } from '../../types';
-import { FiArrowRight, FiStar, FiPackage } from 'react-icons/fi';
+import { getImagenUrl } from '../../utils/imageUrl';
 import '../../styles/landing.css';
 
 export default function Landing() {
@@ -52,7 +52,7 @@ export default function Landing() {
                 <div key={p.id} className="carrusel-slide">
                   <div className="carrusel-imagen">
                     <img
-                      src={p.imagenPrincipalUrl ? `http://localhost:3000${p.imagenPrincipalUrl}` : 'https://via.placeholder.com/600x400?text=Sin+Imagen'}
+                      src={getImagenUrl(p.imagenPrincipalUrl) || 'https://via.placeholder.com/600x400?text=Sin+Imagen'}
                       alt={p.nombre}
                     />
                   </div>
