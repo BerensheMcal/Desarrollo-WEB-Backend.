@@ -8,19 +8,19 @@ import {
 
 export abstract class EntidadBase {
   @PrimaryGeneratedColumn('identity')
-  id: number;
+  id!: number;
 
   @CreateDateColumn({ name: 'fecha_creacion', type: 'timestamp' })
-  fechaCreacion: Date;
+  fechaCreacion!: Date;
 
   @UpdateDateColumn({ name: 'fecha_actualizacion', type: 'timestamp' })
-  fechaActualizacion: Date;
+  fechaActualizacion!: Date;
 }
-
+/* CAMPO DE ELIMINACIÓN */
 export abstract class EntidadBaseConEliminacion extends EntidadBase {
   @DeleteDateColumn({ name: 'fecha_eliminacion', type: 'timestamp', nullable: true })
-  fechaEliminacion: Date | null;
+  fechaEliminacion!: Date | null;
 
   @Column({ name: 'eliminado', default: false })
-  eliminado: boolean;
+  eliminado!: boolean;
 }

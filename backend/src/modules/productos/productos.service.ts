@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 import { Producto } from '../../database/entities/producto.entity';
 import { ImagenProducto } from '../../database/entities/imagen-producto.entity';
 
+/* ELIMINACION PRODUCTOS */
+
 @Injectable()
 export class ProductosService {
   constructor(
@@ -70,6 +72,14 @@ export class ProductosService {
 
   async eliminarImagen(imagenId: number) {
     return this.imagenRepo.delete(imagenId);
+  }
+
+  async descontarStock(productoId: number, cantidad: number): Promise<void> {
+    await this.productoRepo.decrement({ id: productoId }, 'stock', cantidad);
+  }
+
+  async aumentarStock(productoId: number, cantidad: number): Promise<void> {
+    await this.productoRepo.increment({ id: productoId }, 'stock', cantidad);
   }
 
   async obtenerMasVendidos(limite = 10) {

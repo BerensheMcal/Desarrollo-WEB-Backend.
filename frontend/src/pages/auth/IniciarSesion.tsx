@@ -2,9 +2,12 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { authService } from '../../services/auth.service';
-import { evaluarFortalezaContrasena, validarEmail } from '../../utils/validators';
+import { validarEmail } from '../../utils/validators';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
+import CaptchaWidget from '../../components/common/CaptchaWidget';
 import '../../styles/auth.css';
+
+/* VALI LOGIN O */
 
 export default function IniciarSesion() {
   const [email, setEmail] = useState('');
@@ -12,6 +15,7 @@ export default function IniciarSesion() {
   const [error, setError] = useState('');
   const [cargando, setCargando] = useState(false);
   const [verContrasena, setVerContrasena] = useState(false);
+  const [captchaVerificado, setCaptchaVerificado] = useState(false);
   const navigate = useNavigate();
   const { iniciarSesion } = useAuth();
 
@@ -19,6 +23,10 @@ export default function IniciarSesion() {
     e.preventDefault();
     setError('');
 
+    if (!captchaVerificado) {
+      setError('Por favor verifica que no eres un robot');
+      return;
+    }
     if (!validarEmail(email)) {
       setError('Email inválido');
       return;
@@ -30,7 +38,7 @@ export default function IniciarSesion() {
 
     setCargando(true);
     try {
-      const { token, usuario } = await authService.iniciarSesion(email, contrasena, 'test-captcha');
+      const { token, usuario } = await authService.iniciarSesion(email, contrasena, 'verificado');
       iniciarSesion(usuario, token);
       if (usuario.rol === 'ADMIN' || usuario.rol === 'STAFF') {
         navigate('/adminpanel');
@@ -89,11 +97,13 @@ export default function IniciarSesion() {
             </div>
           </div>
 
+          <CaptchaWidget onVerify={() => setCaptchaVerificado(true)} />
+
           <button
             type="submit"
             className="btn btn-primario btn-lg"
             style={{ width: '100%', justifyContent: 'center', marginTop: '0.5rem' }}
-            disabled={cargando}
+            disabled={cargando || !captchaVerificado}
           >
             {cargando ? 'Ingresando...' : 'Iniciar Sesión'}
           </button>

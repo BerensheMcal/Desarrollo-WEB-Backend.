@@ -17,3 +17,4 @@ export class RolesGuard implements CanActivate {
     return rolesRequeridos.includes(user.rol);
   }
 }
+/*VERI ROL*/

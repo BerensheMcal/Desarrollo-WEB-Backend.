@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Categoria } from '../../database/entities/categoria.entity';
 
+/* ELIMINACION CATEGORIAS */
+
 @Injectable()
 export class CategoriasService {
   constructor(

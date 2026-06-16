@@ -10,6 +10,8 @@ import { RolUsuario } from '../../database/entities/usuario.entity';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
 
+/* ELIMINACION PRODUCTOS */
+
 @Controller('adminpanel/productos')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(RolUsuario.ADMIN)

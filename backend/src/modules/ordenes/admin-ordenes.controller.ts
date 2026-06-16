@@ -16,6 +16,11 @@ export class AdminOrdenesController {
     return this.ordenesService.listarTodas();
   }
 
+  @Get('con-descuento')
+  listarConDescuento() {
+    return this.ordenesService.listarConDescuentos();
+  }
+
   @Get(':id')
   buscarPorId(@Param('id') id: number) {
     return this.ordenesService.buscarPorId(id);

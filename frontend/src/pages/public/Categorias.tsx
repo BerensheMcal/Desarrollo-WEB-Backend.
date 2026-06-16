@@ -28,7 +28,7 @@ export default function Categorias() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         {categorias.map((c, i) => (
           <Link
-            to="/productos"
+            to={`/productos?categoria=${c.id}`}
             key={c.id}
             className="tarjeta animacion-slide-up"
             style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.25rem', textDecoration: 'none', color: 'inherit', transition: 'all 0.2s' }}

@@ -1,11 +1,12 @@
 export type RolUsuario = 'ADMIN' | 'STAFF' | 'CLIENTE';
-
+/*INTE VALI ,REG.AU*/
 export interface Usuario {
   id: number;
   nombre: string;
   email: string;
   rol: RolUsuario;
   celular?: string;
+  fechaNacimiento?: string;
   direccion?: string;
   imagenUrl?: string;
   fechaCreacion: string;
@@ -57,6 +58,8 @@ export interface Orden {
   numeroOrden: string;
   fechaOrden: string;
   total: number;
+  totalOriginal?: number;
+  descuento?: number;
   estado: EstadoOrden;
   direccionEnvio?: string;
   metodoPago?: string;

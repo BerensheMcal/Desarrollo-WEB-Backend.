@@ -21,19 +21,28 @@ export enum EstadoOrden {
 export class Orden extends EntidadBase {
   @ManyToOne(() => Usuario, (usuario) => usuario.ordenes)
   @JoinColumn({ name: 'usuario_id' })
-  usuario: Usuario;
+  usuario!: Usuario;
 
   @Column({ name: 'usuario_id' })
-  usuarioId: number;
+  usuarioId!: number;
 
   @Column({ name: 'numero_orden', length: 40, unique: true })
-  numeroOrden: string;
+  numeroOrden!: string;
 
   @Column({ name: 'fecha_orden', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  fechaOrden: Date;
+  fechaOrden!: Date;
 
   @Column({ name: 'total', type: 'decimal', precision: 12, scale: 2 })
-  total: number;
+  total!: number;
+
+  @Column({ name: 'total_original', type: 'decimal', precision: 12, scale: 2, nullable: true })
+  totalOriginal!: number | null;
+
+  @Column({ name: 'descuento', type: 'decimal', precision: 12, scale: 2, nullable: true })
+  descuento!: number | null;
+
+  @Column({ name: 'descuento_aplicado', type: 'boolean', default: false })
+  descuentoAplicado!: boolean;
 
   @Column({
     name: 'estado',
@@ -41,17 +50,17 @@ export class Orden extends EntidadBase {
     enum: EstadoOrden,
     default: EstadoOrden.PENDIENTE,
   })
-  estado: EstadoOrden;
+  estado!: EstadoOrden;
 
   @Column({ name: 'direccion_envio', type: 'text', nullable: true })
-  direccionEnvio: string | null;
+  direccionEnvio!: string | null;
 
   @Column({ name: 'metodo_pago', type: 'varchar', length: 50, nullable: true })
-  metodoPago: string | null;
+  metodoPago!: string | null;
 
   @Column({ name: 'notas', type: 'text', nullable: true })
-  notas: string | null;
+  notas!: string | null;
 
   @OneToMany(() => DetalleOrden, (detalle) => detalle.orden, { cascade: true })
-  detalles: DetalleOrden[];
+  detalles!: DetalleOrden[];
 }

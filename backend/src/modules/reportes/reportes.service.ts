@@ -3,6 +3,8 @@ import { OrdenesService } from '../ordenes/ordenes.service';
 import { ProductosService } from '../productos/productos.service';
 import { UsuariosService } from '../usuarios/usuarios.service';
 
+/* GENERA LOS PDF DE LOS REPORTES AQUI */
+
 @Injectable()
 export class ReportesService {
   constructor(

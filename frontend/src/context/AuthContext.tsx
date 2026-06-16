@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Usuario } from '../types';
-
+/* CONTEXTO DE AUTENTICACIÓN */
 interface AuthContextType {
   usuario: Usuario | null;
   token: string | null;

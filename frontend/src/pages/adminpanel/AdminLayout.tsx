@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
-import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import {
   FiHome, FiPackage, FiGrid, FiUsers, FiShoppingBag,
-  FiCalendar, FiFileText, FiBarChart2, FiLogOut, FiChevronLeft,
+  FiCalendar, FiFileText, FiBarChart2, FiSettings, FiChevronLeft,
 } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/admin.css';
 
-
+ /* AQUI ESTA MI MENU LATERAL DE ADMIN*/
 const enlacesAdmin = [
   { ruta: '/adminpanel', icono: FiHome, texto: 'Dashboard', roles: ['ADMIN'] },
   { ruta: '/adminpanel/productos', icono: FiPackage, texto: 'Productos', roles: ['ADMIN'] },
@@ -17,13 +17,13 @@ const enlacesAdmin = [
   { ruta: '/adminpanel/talleres', icono: FiCalendar, texto: 'Talleres', roles: ['ADMIN'] },
   { ruta: '/adminpanel/auditoria', icono: FiFileText, texto: 'Auditoría', roles: ['ADMIN'] },
   { ruta: '/adminpanel/reportes', icono: FiBarChart2, texto: 'Reportes', roles: ['ADMIN'] },
+  { ruta: '/adminpanel/configuracion', icono: FiSettings, texto: 'Configuración', roles: ['ADMIN'] },
 ];
 
 export default function AdminLayout() {
   const location = useLocation();
-  const navigate = useNavigate();
-  const { cerrarSesion, esAdmin, esStaff } = useAuth();
-  const [sidebarAbierto, setSidebarAbierto] = useState(true);
+  const { esStaff } = useAuth();
+  const sidebarAbierto = true;
 
   const enlacesVisibles = enlacesAdmin.filter(
     (e) => e.roles.includes('ADMIN') || (esStaff && e.roles.includes('STAFF'))

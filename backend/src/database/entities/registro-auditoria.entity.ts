@@ -13,24 +13,25 @@ export enum EventoAuditoria {
 @Entity({ name: 'registros_auditoria' })
 export class RegistroAuditoria extends EntidadBase {
   @Column({ name: 'usuario_id', type: 'int', nullable: true })
-  usuarioId: number | null;
+  usuarioId!: number | null;
 
   @Column({ name: 'email_intentado', type: 'varchar', length: 200, nullable: true })
-  emailIntentado: string | null;
+  emailIntentado!: string | null;
 
   @Column({ name: 'direccion_ip', length: 50 })
-  direccionIp: string;
+  direccionIp!: string;
 
   @Column({
     name: 'evento',
     type: 'enum',
     enum: EventoAuditoria,
   })
-  evento: EventoAuditoria;
+  evento!: EventoAuditoria;
 
   @Column({ name: 'navegador', type: 'varchar', length: 500, nullable: true })
-  navegador: string | null;
+  navegador!: string | null;
 
   @Column({ name: 'fecha_hora', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  fechaHora: Date;
+  fechaHora!: Date;
 }
+/* REGISTRO DE AUDITORÍA */

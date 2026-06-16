@@ -4,12 +4,14 @@ import { authService } from '../../services/auth.service';
 import { evaluarFortalezaContrasena, validarEmail } from '../../utils/validators';
 import { FortalezaContrasena } from '../../types';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
+import CaptchaWidget from '../../components/common/CaptchaWidget';
 import '../../styles/auth.css';
 
 export default function Registro() {
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
   const [celular, setCelular] = useState('');
+  const [fechaNacimiento, setFechaNacimiento] = useState('');
   const [contrasena, setContrasena] = useState('');
   const [confirmarContrasena, setConfirmarContrasena] = useState('');
   const [error, setError] = useState('');
@@ -17,6 +19,7 @@ export default function Registro() {
   const [fortaleza, setFortaleza] = useState<FortalezaContrasena | null>(null);
   const [verContrasena, setVerContrasena] = useState(false);
   const [verConfirmar, setVerConfirmar] = useState(false);
+  const [captchaVerificado, setCaptchaVerificado] = useState(false);
   const navigate = useNavigate();
 
   const manejarCambioContrasena = (valor: string) => {
@@ -37,10 +40,11 @@ export default function Registro() {
     if (contrasena.length < 8) { setError('La contraseña debe tener al menos 8 caracteres'); return; }
     if (fortaleza && fortaleza.nivel === 'debil') { setError('La contraseña es muy débil'); return; }
     if (contrasena !== confirmarContrasena) { setError('Las contraseñas no coinciden'); return; }
+    if (!captchaVerificado) { setError('Por favor verifica que no eres un robot'); return; }
 
     setCargando(true);
     try {
-      await authService.registrar({ nombre, email, contrasena, celular: celular || undefined });
+      await authService.registrar({ nombre, email, contrasena, celular: celular || undefined, fechaNacimiento: fechaNacimiento || undefined });
       navigate('/auth/iniciar-sesion', { state: { registrado: true } });
     } catch (err: any) {
       setError(err.response?.data?.message?.[0] || err.response?.data?.message || 'Error al registrarse');
@@ -78,6 +82,11 @@ export default function Registro() {
           </div>
 
           <div className="input-grupo">
+            <label htmlFor="fechaNacimiento">Fecha de Nacimiento</label>
+            <input id="fechaNacimiento" type="date" value={fechaNacimiento} onChange={(e) => setFechaNacimiento(e.target.value)} style={inputStyle} />
+          </div>
+
+          <div className="input-grupo">
             <label htmlFor="contrasena">Contraseña</label>
             <div style={{ position: 'relative' }}>
               <input id="contrasena" type={verContrasena ? 'text' : 'password'} value={contrasena} onChange={(e) => manejarCambioContrasena(e.target.value)} placeholder="Mínimo 8 caracteres" required style={{ ...inputStyle, paddingRight: '2.5rem' }} />
@@ -105,7 +114,9 @@ export default function Registro() {
             </div>
           </div>
 
-          <button type="submit" className="btn btn-primario btn-lg" style={{ width: '100%', justifyContent: 'center', marginTop: '0.5rem' }} disabled={cargando}>
+          <CaptchaWidget onVerify={() => setCaptchaVerificado(true)} />
+
+          <button type="submit" className="btn btn-primario btn-lg" style={{ width: '100%', justifyContent: 'center', marginTop: '0.5rem' }} disabled={cargando || !captchaVerificado}>
             {cargando ? 'Registrando...' : 'Crear Cuenta'}
           </button>
         </form>

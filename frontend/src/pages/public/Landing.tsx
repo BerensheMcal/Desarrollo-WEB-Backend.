@@ -58,7 +58,7 @@ export default function Landing() {
                   </div>
                   <div className="carrusel-info">
                     <h3>{p.nombre}</h3>
-                    <p className="carrusel-precio">${Number(p.precio).toFixed(2)}</p>
+                    <p className="carrusel-precio">Bs{Number(p.precio).toFixed(2)}</p>
                     <Link to={`/productos/${p.id}`} className="btn btn-primario">
                       Ver Detalle
                     </Link>

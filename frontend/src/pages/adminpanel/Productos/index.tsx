@@ -148,7 +148,7 @@ export default function AdminProductos() {
               </td>
               <td style={{ fontWeight: 600 }}>{p.nombre}</td>
               <td>{p.categoria?.nombre || '-'}</td>
-              <td>${Number(p.precio).toFixed(2)}</td>
+              <td>Bs{Number(p.precio).toFixed(2)}</td>
               <td><span className={`badge ${p.stock > 0 ? 'badge-exito' : 'badge-peligro'}`}>{p.stock}</span></td>
               <td>
                 <div style={{ display: 'flex', gap: '0.5rem' }}>

@@ -1,14 +1,18 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { productosService, categoriasService } from '../../services/admin.service';
 import { Producto, Categoria } from '../../types';
 import { FiSearch } from 'react-icons/fi';
 import '../../styles/productos.css';
 
 export default function Productos() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const categoriaParam = searchParams.get('categoria');
   const [productos, setProductos] = useState<Producto[]>([]);
   const [categorias, setCategorias] = useState<Categoria[]>([]);
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<number | undefined>();
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<number | undefined>(
+    categoriaParam ? Number(categoriaParam) : undefined
+  );
   const [busqueda, setBusqueda] = useState('');
   const [imagenAmpliada, setImagenAmpliada] = useState<string | null>(null);
 
@@ -44,7 +48,7 @@ export default function Productos() {
         <div className="productos-categorias">
           <button
             className={`categoria-chip ${!categoriaSeleccionada ? 'activo' : ''}`}
-            onClick={() => setCategoriaSeleccionada(undefined)}
+            onClick={() => { setCategoriaSeleccionada(undefined); setSearchParams({}); }}
           >
             Todas
           </button>
@@ -52,7 +56,7 @@ export default function Productos() {
             <button
               key={c.id}
               className={`categoria-chip ${categoriaSeleccionada === c.id ? 'activo' : ''}`}
-              onClick={() => setCategoriaSeleccionada(c.id)}
+              onClick={() => { setCategoriaSeleccionada(c.id); setSearchParams({ categoria: String(c.id) }); }}
             >
               {c.nombre}
             </button>
@@ -77,7 +81,7 @@ export default function Productos() {
               <h3>{p.nombre}</h3>
               <p className="producto-descripcion">{p.descripcion}</p>
               <div className="producto-footer">
-                <span className="producto-precio">${Number(p.precio).toFixed(2)}</span>
+                <span className="producto-precio">Bs{Number(p.precio).toFixed(2)}</span>
                 <span className={`producto-stock ${p.stock > 0 ? 'disponible' : 'agotado'}`}>
                   {p.stock > 0 ? `${p.stock} en stock` : 'Agotado'}
                 </span>

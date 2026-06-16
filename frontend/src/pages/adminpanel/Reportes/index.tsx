@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { adminService } from '../../../services/admin.service';
 import { FiDownload, FiFileText } from 'react-icons/fi';
 
+/*DESCARGA DE REPORTES AQUI */
+
 export default function AdminReportes() {
   const [descargando, setDescargando] = useState(false);
 

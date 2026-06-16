@@ -13,11 +13,11 @@ import { ItemCarrito } from './item-carrito.entity';
 export class Carrito extends EntidadBase {
   @OneToOne(() => Usuario, (usuario) => usuario.carrito)
   @JoinColumn({ name: 'usuario_id' })
-  usuario: Usuario;
+  usuario!: Usuario;
 
   @Column({ name: 'usuario_id', unique: true })
-  usuarioId: number;
+  usuarioId!: number;
 
   @OneToMany(() => ItemCarrito, (item) => item.carrito, { cascade: true })
-  items: ItemCarrito[];
+  items!: ItemCarrito[];
 }

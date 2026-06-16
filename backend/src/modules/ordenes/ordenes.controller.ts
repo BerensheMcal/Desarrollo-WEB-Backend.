@@ -13,6 +13,11 @@ export class OrdenesController {
     return this.ordenesService.listarPorUsuario(req.user.id);
   }
 
+  @Get('descuento-cliente-frecuente')
+  descuentoClienteFrecuente(@Req() req: any) {
+    return this.ordenesService.obtenerDescuentoClienteFrecuente(req.user.id);
+  }
+
   @Get(':id')
   buscarPorId(@Param('id') id: number) {
     return this.ordenesService.buscarPorId(id);

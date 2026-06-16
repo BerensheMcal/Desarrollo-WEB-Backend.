@@ -1,8 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Not } from 'typeorm';
 import { Orden, EstadoOrden } from '../../database/entities/orden.entity';
 import { DetalleOrden } from '../../database/entities/detalle-orden.entity';
+import { ConfiguracionService } from '../configuracion/configuracion.service';
+import { ProductosService } from '../productos/productos.service';
 
 @Injectable()
 export class OrdenesService {
@@ -11,6 +13,8 @@ export class OrdenesService {
     private readonly ordenRepo: Repository<Orden>,
     @InjectRepository(DetalleOrden)
     private readonly detalleRepo: Repository<DetalleOrden>,
+    private readonly configService: ConfiguracionService,
+    private readonly productosService: ProductosService,
   ) {}
 
   async crear(usuarioId: number, items: { productoId: number; cantidad: number; precioUnitario: number }[], direccionEnvio?: string, metodoPago?: string) {
@@ -21,7 +25,39 @@ export class OrdenesService {
       total += subtotal;
       return this.detalleRepo.create({ productoId: item.productoId, cantidad: item.cantidad, precioUnitario: item.precioUnitario, subtotal });
     });
-    const orden = this.ordenRepo.create({ usuarioId, numeroOrden, total, direccionEnvio, metodoPago, detalles });
+    const totalOriginal = total;
+
+    const ultimaConDescuento = await this.ordenRepo.findOne({
+      where: { usuarioId, descuentoAplicado: true, estado: Not(EstadoOrden.CANCELADA) },
+      order: { fechaCreacion: 'DESC' },
+    });
+    const desde = ultimaConDescuento?.fechaCreacion || new Date(0);
+    const ordenesPrevias = await this.ordenRepo.find({
+      where: { usuarioId, estado: Not(EstadoOrden.CANCELADA) },
+      relations: { detalles: true },
+    });
+    const productosPrevios = ordenesPrevias
+      .filter((o) => o.fechaCreacion >= desde && !o.descuentoAplicado)
+      .reduce((sum, o) =>
+        sum + (o.detalles || []).reduce((s, d) => s + d.cantidad, 0), 0);
+
+    let descuento = 0;
+    let descuentoAplicado = false;
+    if (productosPrevios >= 10) {
+      const descuentoStr = await this.configService.obtener('descuento_cliente_frecuente');
+      if (descuentoStr) {
+        descuento = Math.round(total * (Number(descuentoStr) / 100) * 100) / 100;
+        total = totalOriginal - descuento;
+        descuentoAplicado = true;
+      }
+    }
+
+    const orden = this.ordenRepo.create({ usuarioId, numeroOrden, total, totalOriginal, descuento, descuentoAplicado, direccionEnvio, metodoPago, detalles });
+
+    for (const item of items) {
+      await this.productosService.descontarStock(item.productoId, item.cantidad);
+    }
+
     return this.ordenRepo.save(orden);
   }
 
@@ -41,8 +77,40 @@ export class OrdenesService {
 
   async actualizarEstado(id: number, estado: EstadoOrden) {
     const orden = await this.buscarPorId(id);
+    if (estado === EstadoOrden.CANCELADA && orden.estado !== EstadoOrden.CANCELADA) {
+      for (const detalle of orden.detalles) {
+        await this.productosService.aumentarStock(detalle.productoId, detalle.cantidad);
+      }
+    }
     orden.estado = estado;
     return this.ordenRepo.save(orden);
+  }
+
+  async obtenerDescuentoClienteFrecuente(usuarioId: number): Promise<{ tieneDescuento: boolean; porcentaje: number; totalOrdenes: number; totalProductos: number }> {
+    const ultimaConDescuento = await this.ordenRepo.findOne({
+      where: { usuarioId, descuentoAplicado: true, estado: Not(EstadoOrden.CANCELADA) },
+      order: { fechaCreacion: 'DESC' },
+    });
+    const desde = ultimaConDescuento?.fechaCreacion || new Date(0);
+    const ordenes = await this.ordenRepo.find({
+      where: { usuarioId, estado: Not(EstadoOrden.CANCELADA) },
+      relations: { detalles: true },
+    });
+    const ordenesRecientes = ordenes.filter((o) => o.fechaCreacion >= desde && !o.descuentoAplicado);
+    const totalProductos = ordenesRecientes.reduce((sum, o) =>
+      sum + (o.detalles || []).reduce((s, d) => s + d.cantidad, 0), 0);
+    const descuentoStr = await this.configService.obtener('descuento_cliente_frecuente');
+    const porcentaje = Number(descuentoStr || 0);
+    return { tieneDescuento: totalProductos >= 10 && porcentaje > 0, porcentaje, totalOrdenes: ordenesRecientes.length, totalProductos };
+  }
+
+  async listarConDescuentos() {
+    return this.ordenRepo.createQueryBuilder('orden')
+      .leftJoinAndSelect('orden.usuario', 'usuario')
+      .where('orden.descuento IS NOT NULL')
+      .andWhere('orden.descuento > 0')
+      .orderBy('orden.fecha_creacion', 'DESC')
+      .getMany();
   }
 
   async obtenerIngresosPorMes() {

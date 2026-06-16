@@ -30,3 +30,4 @@ import { AuditoriaModule } from '../auditoria/auditoria.module';
   exports: [AuthService, JwtModule],
 })
 export class AuthModule {}
+/* MÓDULO DE AUTENTICACIÓN */

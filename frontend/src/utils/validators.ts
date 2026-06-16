@@ -22,3 +22,4 @@ export function validarEmail(email: string): boolean {
 export function validarCelular(celular: string): boolean {
   return /^\+?[\d\s()-]{7,20}$/.test(celular);
 }
+/* VALIDACIONES USUARIOS */

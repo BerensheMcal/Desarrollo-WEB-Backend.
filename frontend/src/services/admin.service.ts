@@ -15,7 +15,7 @@ export const talleresService = {
   listar: () => api.get<Taller[]>('/talleres'),
   buscarPorId: (id: number) => api.get<Taller>(`/talleres/${id}`),
 };
-
+/*    +   */
 export const adminService = {
   dashboard: () => api.get<DatosDashboard>('/adminpanel/dashboard'),
   reportes: {
@@ -50,6 +50,7 @@ export const adminService = {
   },
   ordenes: {
     listar: () => api.get<Orden[]>('/adminpanel/ordenes'),
+    listarConDescuento: () => api.get<Orden[]>('/adminpanel/ordenes/con-descuento'),
     actualizarEstado: (id: number, estado: string) => api.patch(`/adminpanel/ordenes/${id}/estado`, { estado }),
   },
   talleres: {
@@ -70,5 +71,9 @@ export const adminService = {
   },
   auditoria: {
     listar: () => api.get<RegistroAuditoria[]>('/adminpanel/auditoria'),
+  },
+  configuracion: {
+    listar: () => api.get('/adminpanel/configuracion'),
+    actualizar: (clave: string, valor: string) => api.put('/adminpanel/configuracion', { clave, valor }),
   },
 };

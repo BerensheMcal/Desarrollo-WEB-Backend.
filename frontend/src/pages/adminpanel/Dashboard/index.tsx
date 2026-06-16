@@ -5,6 +5,8 @@ import { FiDollarSign, FiShoppingCart, FiUsers, FiPackage } from 'react-icons/fi
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import '../../../styles/admin.css';
 
+/*GRAFICO ESTADISTICO  */
+
 const COLORS = ['#6366f1', '#f59e0b', '#22c55e', '#ef4444', '#3b82f6', '#8b5cf6'];
 
 export default function Dashboard() {
@@ -76,6 +78,8 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+      
+      {/* GRAFICO DE BARRAS */}
 
       <div className="dashboard-graficos">
         <div className="dashboard-grafico animacion-slide-up">
@@ -91,6 +95,8 @@ export default function Dashboard() {
           </ResponsiveContainer>
         </div>
 
+        {/* GRAFICO DE PASTEL  */}
+        
         <div className="dashboard-grafico animacion-slide-up">
           <h3>Productos Más Vendidos</h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -103,7 +109,10 @@ export default function Dashboard() {
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`}
+                label={({ name, percent }: { name?: string; percent?: number }) => {
+                  const pct = typeof percent === 'number' ? Math.round(percent * 100) : 0;
+                  return `${pct}%`;
+                }}
                 outerRadius={100}
                 dataKey="value"
               >

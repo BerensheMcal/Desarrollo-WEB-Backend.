@@ -2,9 +2,9 @@
   --color-primario: #6366f1;
   --color-primario-oscuro: #4f46e5;
   --color-secundario: #f59e0b;
-  --color-fondo: #f8fafc;
-  --color-texto: #1e293b;
-  --color-texto-secundario: #64748b;
+  --color-fondo: #aabf7b;  
+  --color-texto: #31b42d;
+  --color-texto-secundario: #ccd132;
   --color-borde: #e2e8f0;
   --color-exito: #22c55e;
   --color-peligro: #ef4444;
@@ -15,6 +15,8 @@
   --radio: 8px;
   --radio-lg: 12px;
   --transicion: 0.3s ease;
+  --imagen-fondo: url('../assets/images/fond1.jpg'); 
+
 }
 
 * {
@@ -28,6 +30,11 @@ body {
   background-color: var(--color-fondo);
   color: var(--color-texto);
   line-height: 1.6;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), var(--imagen-fondo);
+  background-size: cover;       
+  background-position: center;  
+  background-repeat: no-repeat; 
+  background-attachment: fixed; 
 }
 
 a {

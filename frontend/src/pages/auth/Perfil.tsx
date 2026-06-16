@@ -9,6 +9,7 @@ export default function Perfil() {
   const [nombre, setNombre] = useState(usuario?.nombre || '');
   const [email, setEmail] = useState(usuario?.email || '');
   const [celular, setCelular] = useState(usuario?.celular || '');
+  const [fechaNacimiento, setFechaNacimiento] = useState(usuario?.fechaNacimiento || '');
   const [contrasena, setContrasena] = useState('');
   const [confirmarContrasena, setConfirmarContrasena] = useState('');
   const [error, setError] = useState('');
@@ -30,12 +31,14 @@ export default function Perfil() {
     try {
       const data: any = { nombre, email };
       if (celular !== usuario?.celular) data.celular = celular || null;
+      if (fechaNacimiento !== (usuario?.fechaNacimiento || '')) data.fechaNacimiento = fechaNacimiento || null;
       if (contrasena) data.contrasena = contrasena;
       await api.patch(`/usuarios/${usuario!.id}/perfil`, data);
       const stored = JSON.parse(localStorage.getItem('usuario') || '{}');
       stored.nombre = nombre;
       stored.email = email;
       stored.celular = celular;
+      stored.fechaNacimiento = fechaNacimiento;
       localStorage.setItem('usuario', JSON.stringify(stored));
       setExito('Perfil actualizado correctamente');
       setContrasena('');
@@ -74,6 +77,11 @@ export default function Perfil() {
           <div className="input-grupo">
             <label htmlFor="celular">Celular</label>
             <input id="celular" type="tel" value={celular} onChange={(e) => setCelular(e.target.value)} placeholder="+54 11 1234-5678" style={inputStyle} />
+          </div>
+
+          <div className="input-grupo">
+            <label htmlFor="fechaNacimiento">Fecha de Nacimiento</label>
+            <input id="fechaNacimiento" type="date" value={fechaNacimiento} onChange={(e) => setFechaNacimiento(e.target.value)} style={inputStyle} />
           </div>
 
           <div className="input-grupo">

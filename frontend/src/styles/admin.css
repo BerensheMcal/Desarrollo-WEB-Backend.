@@ -85,7 +85,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--color-texto-secundario);
+  color: black;
   border-bottom: 2px solid var(--color-borde);
 }
 

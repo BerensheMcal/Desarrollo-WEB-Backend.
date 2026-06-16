@@ -16,3 +16,4 @@ export class AuditoriaController {
     return this.auditoriaService.listar();
   }
 }
+/*ADMIN*/

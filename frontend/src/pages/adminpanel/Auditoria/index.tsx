@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { adminService } from '../../../services/admin.service';
 import { RegistroAuditoria } from '../../../types';
 import { FiLogIn, FiLogOut, FiAlertCircle } from 'react-icons/fi';
-
+/*TABLA VS PUNTO 11 */
 const iconoEvento = { INGRESO_EXITOSO: <FiLogIn color="#22c55e" />, INGRESO_FALLIDO: <FiAlertCircle color="#ef4444" />, CIERRE_SESION: <FiLogOut color="#64748b" /> };
 const textoEvento = { INGRESO_EXITOSO: 'Ingreso exitoso', INGRESO_FALLIDO: 'Ingreso fallido', CIERRE_SESION: 'Cierre de sesión' };
 

@@ -29,7 +29,7 @@ export class AuthService {
         usuarioId: null,
         emailIntentado: email,
         direccionIp: ip,
-        evento: EventoAuditoria.INGRESO_FALLIDO,
+        evento: EventoAuditoria.INGRESO_FALLIDO,/*    F  ACC  */
         navegador,
       });
       throw new UnauthorizedException('Credenciales inválidas');

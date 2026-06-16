@@ -3,13 +3,15 @@ import { AuthService } from './auth.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { IsString, IsEmail, MinLength, IsOptional } from 'class-validator';
 
+  /* VALIDACIONES LOGIN */
+
 export class IniciarSesionDto {
   @IsEmail({}, { message: 'Email inválido' })
-  email: string;
+  email!: string;
 
   @IsString()
   @MinLength(1, { message: 'La contraseña es requerida' })
-  contrasena: string;
+  contrasena!: string;
 
   @IsOptional()
   @IsString()

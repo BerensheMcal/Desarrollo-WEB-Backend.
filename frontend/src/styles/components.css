@@ -1,5 +1,5 @@
 .contenedor {
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
   padding: 0 1rem;
 }
@@ -68,7 +68,7 @@
 }
 
 .tarjeta {
-  background: white;
+  background: #1c2b1e;
   border-radius: var(--radio-lg);
   box-shadow: var(--sombra);
   padding: 1.5rem;

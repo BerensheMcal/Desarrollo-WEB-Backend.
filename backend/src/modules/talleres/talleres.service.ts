@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Taller } from '../../database/entities/taller.entity';
 
+/* ELIMINACION TALLERES */
+
 @Injectable()
 export class TalleresService {
   constructor(

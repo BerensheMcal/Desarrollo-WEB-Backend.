@@ -49,8 +49,8 @@ export default function AdminTalleres() {
     setEditando(t.id);
     setNombre(t.nombre);
     setDescripcion(t.descripcion || '');
-    setFechaInicio(t.fechaInicio.split('T')[0]);
-    setFechaFin(t.fechaFin.split('T')[0]);
+    setFechaInicio((t.fechaInicio+'').split('T')[0]);
+    setFechaFin((t.fechaFin+'').split('T')[0]);
     setHoraInicio(t.horaInicio || '');
     setHoraFin(t.horaFin || '');
     setCuposMaximos(String(t.cuposMaximos));
@@ -77,8 +77,8 @@ export default function AdminTalleres() {
       data = new FormData();
       data.append('nombre', nombre);
       data.append('descripcion', descripcion || '');
-      data.append('fechaInicio', new Date(fechaInicio).toISOString());
-      data.append('fechaFin', new Date(fechaFin).toISOString());
+      data.append('fechaInicio', fechaInicio);
+      data.append('fechaFin', fechaFin);
       data.append('horaInicio', horaInicio || '');
       data.append('horaFin', horaFin || '');
       data.append('cuposMaximos', cuposMaximos);
@@ -90,8 +90,8 @@ export default function AdminTalleres() {
       data = {
         nombre,
         descripcion: descripcion || undefined,
-        fechaInicio: new Date(fechaInicio).toISOString(),
-        fechaFin: new Date(fechaFin).toISOString(),
+        fechaInicio,
+        fechaFin,
         horaInicio: horaInicio || undefined,
         horaFin: horaFin || undefined,
         cuposMaximos: Number(cuposMaximos),
@@ -176,9 +176,9 @@ export default function AdminTalleres() {
                 )}
               </td>
               <td style={{ fontWeight: 600 }}>{t.nombre}</td>
-              <td>{new Date(t.fechaInicio).toLocaleDateString()} - {new Date(t.fechaFin).toLocaleDateString()}</td>
+              <td>{(t.fechaInicio+'').split('T')[0]} - {(t.fechaFin+'').split('T')[0]}</td>
               <td><span className={`badge ${t.cuposDisponibles > 0 ? 'badge-exito' : 'badge-peligro'}`}>{t.cuposDisponibles}/{t.cuposMaximos}</span></td>
-              <td>${Number(t.precio).toFixed(2)}</td>
+              <td>Bs{Number(t.precio).toFixed(2)}</td>
               <td><div style={{ display: 'flex', gap: '0.5rem' }}><button className="btn btn-outline btn-sm" onClick={() => abrirFormEditar(t)}><FiEdit2 size={14} /></button><button className="btn btn-peligro btn-sm" onClick={() => eliminar(t.id)}><FiTrash2 size={14} /></button></div></td>
             </tr>
           ))}

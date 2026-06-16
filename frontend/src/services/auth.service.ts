@@ -11,7 +11,7 @@ export const authService = {
     await api.post('/auth/cerrar-sesion');
   },
 
-  async registrar(datos: { nombre: string; email: string; contrasena: string; celular?: string }): Promise<void> {
+  async registrar(datos: { nombre: string; email: string; contrasena: string; celular?: string; fechaNacimiento?: string }): Promise<void> {
     await api.post('/usuarios', datos);
   },
 };

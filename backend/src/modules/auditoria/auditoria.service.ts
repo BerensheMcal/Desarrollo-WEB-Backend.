@@ -19,3 +19,4 @@ export class AuditoriaService {
     return this.auditoriaRepo.find({ order: { fechaHora: 'DESC' }, take: 200 });
   }
 }
+/*SAVE Y LIST AU*/

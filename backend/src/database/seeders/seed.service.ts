@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Usuario, RolUsuario } from '../entities/usuario.entity';
+import { Configuracion } from '../entities/configuracion.entity';
 
 @Injectable()
 export class SeedService {
@@ -11,6 +12,8 @@ export class SeedService {
   constructor(
     @InjectRepository(Usuario)
     private readonly usuarioRepo: Repository<Usuario>,
+    @InjectRepository(Configuracion)
+    private readonly configRepo: Repository<Configuracion>,
   ) {}
 
   async ejecutar(): Promise<void> {
@@ -55,6 +58,14 @@ export class SeedService {
       this.logger.log(`Staff creado: staff@tienda.com / ${contrasenaStaff}`);
     } else {
       this.logger.log('Staff ya existe, saltando...');
+    }
+
+    const descuentoExiste = await this.configRepo.findOne({ where: { clave: 'descuento_cliente_frecuente' } });
+    if (!descuentoExiste) {
+      await this.configRepo.save(this.configRepo.create({ clave: 'descuento_cliente_frecuente', valor: '10' }));
+      this.logger.log('Descuento cliente frecuente creado: 10%');
+    } else {
+      this.logger.log('Descuento ya existe, saltando...');
     }
 
     this.logger.log('Seed completado.');

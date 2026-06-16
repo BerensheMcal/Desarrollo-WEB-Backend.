@@ -12,18 +12,18 @@ import { Producto } from './producto.entity';
 export class ItemCarrito extends EntidadBase {
   @ManyToOne(() => Carrito, (carrito) => carrito.items, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'carrito_id' })
-  carrito: Carrito;
+  carrito!: Carrito;
 
   @Column({ name: 'carrito_id' })
-  carritoId: number;
+  carritoId!: number;
 
   @ManyToOne(() => Producto)
   @JoinColumn({ name: 'producto_id' })
-  producto: Producto;
+  producto!: Producto;
 
   @Column({ name: 'producto_id' })
-  productoId: number;
+  productoId!: number;
 
   @Column({ name: 'cantidad', type: 'int', default: 1 })
-  cantidad: number;
+  cantidad!: number;
 }

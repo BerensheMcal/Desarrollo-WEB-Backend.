@@ -1,4 +1,4 @@
-import { IsString, IsNumber, IsOptional, IsDateString, Min, MinLength, MaxLength, IsPositive } from 'class-validator';
+import { IsString, IsNumber, IsOptional, Matches, Min, MinLength, MaxLength } from 'class-validator';
 
 export class CrearTallerDto {
   @IsString({ message: 'El nombre debe ser texto' })
@@ -10,10 +10,12 @@ export class CrearTallerDto {
   @IsString({ message: 'La descripción debe ser texto' })
   descripcion?: string;
 
-  @IsDateString({}, { message: 'Fecha de inicio inválida' })
+  @IsString({ message: 'Fecha de inicio inválida' })
+  @Matches(/^\d{4}-\d{2}-\d{2}$/, { message: 'La fecha debe tener formato YYYY-MM-DD' })
   fechaInicio: string;
 
-  @IsDateString({}, { message: 'Fecha de fin inválida' })
+  @IsString({ message: 'Fecha de fin inválida' })
+  @Matches(/^\d{4}-\d{2}-\d{2}$/, { message: 'La fecha debe tener formato YYYY-MM-DD' })
   fechaFin: string;
 
   @IsOptional()

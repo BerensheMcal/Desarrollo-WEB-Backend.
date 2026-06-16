@@ -14,6 +14,7 @@ import { TalleresModule } from './modules/talleres/talleres.module';
 import { ReservasModule } from './modules/reservas/reservas.module';
 import { AuditoriaModule } from './modules/auditoria/auditoria.module';
 import { ReportesModule } from './modules/reportes/reportes.module';
+import { ConfiguracionModule } from './modules/configuracion/configuracion.module';
 import { AdminpanelModule } from './adminpanel/adminpanel.module';
 import { SeedModule } from './database/seeders/seed.module';
 
@@ -50,6 +51,7 @@ import { SeedModule } from './database/seeders/seed.module';
     ReservasModule,
     AuditoriaModule,
     ReportesModule,
+    ConfiguracionModule,
     AdminpanelModule,
     SeedModule,
   ],

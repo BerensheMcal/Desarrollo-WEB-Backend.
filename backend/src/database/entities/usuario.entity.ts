@@ -14,17 +14,18 @@ export enum RolUsuario {
   STAFF = 'STAFF',
   CLIENTE = 'CLIENTE',
 }
+/* ELIMINACION USUARIOS */
 
 @Entity({ name: 'usuarios' })
 export class Usuario extends EntidadBaseConEliminacion {
   @Column({ name: 'nombre', length: 150 })
-  nombre: string;
+  nombre!: string;
 
   @Column({ name: 'email', length: 200, unique: true })
-  email: string;
+  email!: string;
 
   @Column({ name: 'contrasena_hash', length: 255, select: false })
-  contrasenaHash: string;
+  contrasenaHash!: string;
 
   @Column({
     name: 'rol',
@@ -32,23 +33,26 @@ export class Usuario extends EntidadBaseConEliminacion {
     enum: RolUsuario,
     default: RolUsuario.CLIENTE,
   })
-  rol: RolUsuario;
+  rol!: RolUsuario;
 
   @Column({ name: 'celular', type: 'varchar', length: 20, nullable: true })
-  celular: string | null;
+  celular!: string | null;
+
+  @Column({ name:'fecha_nacimiento', type:'date', nullable:true})
+  fechaNacimiento!: string | null;
 
   @Column({ name: 'direccion', type: 'text', nullable: true })
-  direccion: string | null;
+  direccion!: string | null;
 
   @Column({ name: 'imagen_url', type: 'varchar', length: 500, nullable: true })
-  imagenUrl: string | null;
+  imagenUrl!: string | null;
 
   @OneToOne(() => Carrito, (carrito) => carrito.usuario)
-  carrito: Carrito;
+  carrito!: Carrito;
 
   @OneToMany(() => Orden, (orden) => orden.usuario)
-  ordenes: Orden[];
+  ordenes!: Orden[];
 
   @OneToMany(() => ReservaTaller, (reserva) => reserva.usuario)
-  reservas: ReservaTaller[];
+  reservas!: ReservaTaller[];
 }

@@ -27,7 +27,7 @@ export default function Talleres() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '1.5rem' }}>
         {talleres.map((taller) => (
           <div key={taller.id} className="tarjeta animacion-slide-up" style={{ display: 'flex', flexDirection: 'column' }}>
-            <div style={{ height: 180, borderRadius: 'var(--radio)', overflow: 'hidden', marginBottom: '1rem', background: 'var(--color-fondo)' }}>
+            <div style={{height: 350, borderRadius: 'var(--radio)', overflow: 'hidden', marginBottom: '1rem', background: 'var(--color-fondo)' }}>
               <img
                 src={taller.imagenUrl ? `http://localhost:3000${taller.imagenUrl}` : 'https://via.placeholder.com/400x200?text=Taller'}
                 alt={taller.nombre}
@@ -39,13 +39,13 @@ export default function Talleres() {
               {taller.descripcion}
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1rem', fontSize: '0.8125rem', color: 'var(--color-texto-secundario)' }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><FiCalendar size={14} /> {new Date(taller.fechaInicio).toLocaleDateString()} - {new Date(taller.fechaFin).toLocaleDateString()}</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><FiCalendar size={14} /> {(taller.fechaInicio+'').split('T')[0]} - {(taller.fechaFin+'').split('T')[0]}</span>
               {taller.horaInicio && <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><FiClock size={14} /> {taller.horaInicio} - {taller.horaFin}</span>}
               {taller.ubicacion && <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><FiMapPin size={14} /> {taller.ubicacion}</span>}
               <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><FiUsers size={14} /> {taller.cuposDisponibles} / {taller.cuposMaximos} cupos</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--color-primario)' }}>${Number(taller.precio).toFixed(2)}</span>
+              <span style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--color-primario)' }}>Bs{Number(taller.precio).toFixed(2)}</span>
               <Link to={`/talleres/${taller.id}`} className="btn btn-primario btn-sm" style={{ opacity: taller.cuposDisponibles === 0 ? 0.5 : 1 }}>Reservar</Link>
             </div>
           </div>

@@ -20,6 +20,7 @@ import AdminOrdenes from './pages/adminpanel/Ordenes';
 import AdminTalleres from './pages/adminpanel/Talleres';
 import AdminAuditoria from './pages/adminpanel/Auditoria';
 import AdminReportes from './pages/adminpanel/Reportes';
+import AdminConfiguracion from './pages/adminpanel/Configuracion';
 
 function AdminProtegido({ children }: { children: React.ReactNode }) {
   const token = localStorage.getItem('token');
@@ -62,6 +63,7 @@ export default function App() {
             <Route path="talleres" element={<AdminTalleres />} />
             <Route path="auditoria" element={<AdminAuditoria />} />
             <Route path="reportes" element={<AdminReportes />} />
+            <Route path="configuracion" element={<AdminConfiguracion />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/" replace />} />
