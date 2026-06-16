@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Body, Param, Patch, Delete, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
 import { ProductosService } from './productos.service';
 import { CrearProductoDto } from './dto/crear-producto.dto';
 import { ActualizarProductoDto } from './dto/actualizar-producto.dto';
@@ -7,10 +8,11 @@ import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { RolUsuario } from '../../database/entities/usuario.entity';
-import { diskStorage } from 'multer';
-import { extname, join } from 'path';
 
-/* ELIMINACION PRODUCTOS */
+function archivoADataUrl(archivo: Express.Multer.File): string {
+  const base64 = archivo.buffer.toString('base64');
+  return `data:${archivo.mimetype};base64,${base64}`;
+}
 
 @Controller('adminpanel/productos')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -31,13 +33,7 @@ export class AdminProductosController {
   @Post()
   @UseInterceptors(
     FileInterceptor('imagen', {
-      storage: diskStorage({
-        destination: join(__dirname, '..', '..', '..', 'uploads'),
-        filename: (req, file, cb) => {
-          const nombre = `${Date.now()}-${Math.round(Math.random() * 1e9)}${extname(file.originalname)}`;
-          cb(null, nombre);
-        },
-      }),
+      storage: memoryStorage(),
       fileFilter: (req, file, cb) => {
         if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp)$/)) {
           cb(new Error('Solo imágenes (jpg, jpeg, png, gif, webp)'), false);
@@ -50,7 +46,7 @@ export class AdminProductosController {
   crear(@Body() dto: CrearProductoDto, @UploadedFile() archivo?: Express.Multer.File) {
     const data: any = { ...dto };
     if (archivo) {
-      data.imagenPrincipalUrl = `/uploads/${archivo.filename}`;
+      data.imagenPrincipalUrl = archivoADataUrl(archivo);
     }
     return this.productosService.crear(data);
   }
@@ -58,13 +54,7 @@ export class AdminProductosController {
   @Patch(':id')
   @UseInterceptors(
     FileInterceptor('imagen', {
-      storage: diskStorage({
-        destination: join(__dirname, '..', '..', '..', 'uploads'),
-        filename: (req, file, cb) => {
-          const nombre = `${Date.now()}-${Math.round(Math.random() * 1e9)}${extname(file.originalname)}`;
-          cb(null, nombre);
-        },
-      }),
+      storage: memoryStorage(),
       fileFilter: (req, file, cb) => {
         if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp)$/)) {
           cb(new Error('Solo imágenes (jpg, jpeg, png, gif, webp)'), false);
@@ -81,7 +71,7 @@ export class AdminProductosController {
     if (body.precio !== undefined) data.precio = Number(body.precio);
     if (body.stock !== undefined) data.stock = Number(body.stock);
     if (body.categoriaId !== undefined) data.categoriaId = body.categoriaId ? Number(body.categoriaId) : null;
-    if (archivo) data.imagenPrincipalUrl = `/uploads/${archivo.filename}`;
+    if (archivo) data.imagenPrincipalUrl = archivoADataUrl(archivo);
     return this.productosService.actualizar(id, data);
   }
 

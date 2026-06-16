@@ -25,7 +25,7 @@ export class Producto extends EntidadBaseConEliminacion {
   @Column({ name: 'stock', type: 'int', default: 0 })
   stock!: number;
 
-  @Column({ name: 'imagen_principal_url', type: 'varchar', length: 500, nullable: true })
+  @Column({ name: 'imagen_principal_url', type: 'text', nullable: true })
   imagenPrincipalUrl!: string | null;
 
   @ManyToOne(() => Categoria, (categoria) => categoria.productos)

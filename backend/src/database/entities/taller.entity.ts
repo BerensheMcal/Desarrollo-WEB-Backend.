@@ -38,7 +38,7 @@ export class Taller extends EntidadBaseConEliminacion {
   @Column({ name: 'precio', type: 'decimal', precision: 10, scale: 2, default: 0 })
   precio!: number;
 
-  @Column({ name: 'imagen_url', type: 'varchar', length: 500, nullable: true })
+  @Column({ name: 'imagen_url', type: 'text', nullable: true })
   imagenUrl!: string | null;
 
   @Column({ name: 'ubicacion', type: 'varchar', length: 300, nullable: true })

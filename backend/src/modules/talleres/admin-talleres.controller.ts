@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Param, Patch, Delete, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname, join } from 'path';
+import { memoryStorage } from 'multer';
 import { TalleresService } from './talleres.service';
 import { CrearTallerDto } from './dto/crear-taller.dto';
 import { ActualizarTallerDto } from './dto/actualizar-taller.dto';
@@ -9,6 +8,11 @@ import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { RolUsuario } from '../../database/entities/usuario.entity';
+
+function archivoADataUrl(archivo: Express.Multer.File): string {
+  const base64 = archivo.buffer.toString('base64');
+  return `data:${archivo.mimetype};base64,${base64}`;
+}
 
 /* ELIMINACION TALLERES */
 
@@ -26,13 +30,7 @@ export class AdminTalleresController {
   @Post()
   @UseInterceptors(
     FileInterceptor('imagen', {
-      storage: diskStorage({
-        destination: join(__dirname, '..', '..', '..', 'uploads'),
-        filename: (req, file, cb) => {
-          const nombre = `${Date.now()}-${Math.round(Math.random() * 1e9)}${extname(file.originalname)}`;
-          cb(null, nombre);
-        },
-      }),
+      storage: memoryStorage(),
       fileFilter: (req, file, cb) => {
         if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp)$/)) {
           cb(new Error('Solo imágenes (jpg, jpeg, png, gif, webp)'), false);
@@ -54,20 +52,14 @@ export class AdminTalleresController {
     if (body.precio !== undefined) data.precio = Number(body.precio);
     if (body.ubicacion !== undefined) data.ubicacion = body.ubicacion;
     if (body.cuposDisponibles !== undefined) data.cuposDisponibles = Number(body.cuposDisponibles);
-    if (archivo) data.imagenUrl = `/uploads/${archivo.filename}`;
+    if (archivo) data.imagenUrl = archivoADataUrl(archivo);
     return this.talleresService.crear(data);
   }
 
   @Patch(':id')
   @UseInterceptors(
     FileInterceptor('imagen', {
-      storage: diskStorage({
-        destination: join(__dirname, '..', '..', '..', 'uploads'),
-        filename: (req, file, cb) => {
-          const nombre = `${Date.now()}-${Math.round(Math.random() * 1e9)}${extname(file.originalname)}`;
-          cb(null, nombre);
-        },
-      }),
+      storage: memoryStorage(),
       fileFilter: (req, file, cb) => {
         if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp)$/)) {
           cb(new Error('Solo imágenes (jpg, jpeg, png, gif, webp)'), false);
@@ -89,7 +81,7 @@ export class AdminTalleresController {
     if (body.cuposDisponibles !== undefined) data.cuposDisponibles = Number(body.cuposDisponibles);
     if (body.precio !== undefined) data.precio = Number(body.precio);
     if (body.ubicacion !== undefined) data.ubicacion = body.ubicacion;
-    if (archivo) data.imagenUrl = `/uploads/${archivo.filename}`;
+    if (archivo) data.imagenUrl = archivoADataUrl(archivo);
     return this.talleresService.actualizar(id, data);
   }
 
