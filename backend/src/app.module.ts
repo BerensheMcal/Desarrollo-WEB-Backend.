@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, OnModuleInit } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
@@ -17,6 +17,7 @@ import { ReportesModule } from './modules/reportes/reportes.module';
 import { ConfiguracionModule } from './modules/configuracion/configuracion.module';
 import { AdminpanelModule } from './adminpanel/adminpanel.module';
 import { SeedModule } from './database/seeders/seed.module';
+import { SeedService } from './database/seeders/seed.service';
 
 @Module({
   imports: [
@@ -56,4 +57,10 @@ import { SeedModule } from './database/seeders/seed.module';
     SeedModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  constructor(private readonly seedService: SeedService) {}
+
+  async onModuleInit() {
+    await this.seedService.ejecutar();
+  }
+}
